@@ -1,9 +1,11 @@
 import java.util.Scanner;
+import java.security.SecureRandom;
 public class Project1 {
 
 	public static void main(String[] args) {
 		// Cash Register Class
 		Scanner input = new Scanner(System.in);
+		SecureRandom random = new SecureRandom();
 		
 		double TAX = .07; 
 		int items, coupons;
@@ -162,6 +164,66 @@ public class Project1 {
 			System.out.printf("%s %d %n", " $0.05 - ", countNickel);
 		if (countPenny != 0)
 			System.out.printf("%s %d %n%n", " $0.01 - ", countPenny);
+		
+		
+		int lotteryNumber = random.nextInt(19) + 1;
+		int guestPick = 0;
+		counter = 0;
+		
+		do {
+			//Output for the first lottery guess
+			if (counter == 0)
+			{
+				System.out.println("Thank you for your purchase!");
+				System.out.println("To show our appreciation, we would like");
+				System.out.println("to offer you a chance to win a $25 gift card!");
+				System.out.println("We have generated a random number between 1 & 20.");
+				System.out.println("If you can correctly guess the number, then you win!");
+				System.out.println("We will give you three chances to guess!");
+				System.out.println("What is your first guess?");
+			}
+			//Output for follow up guesses
+			else if (counter < 3)
+				System.out.println("What is your next guess?");
+			
+
+		if (counter < 3)
+		{
+			//Guest input for lottery guess
+			guestPick = input.nextInt();
+			
+			if (guestPick > lotteryNumber)
+			{
+				if (counter != 2)
+				System.out.printf("%s %d%s%n", "The correct answer is less than", guestPick, ".");
+			}
+			else if (guestPick < lotteryNumber)
+			{
+				if (counter != 2)
+				System.out.printf("%s %d%s%n", "The correct answer is greater than", guestPick, ".");
+			}
+			else
+			{
+				if (counter != 3)
+				System.out.println("You guessed correctly!");
+			}
+		}
+		else
+		{
+			System.out.printf("%s %d%n", "Sorry, the correct answer was", lotteryNumber + 1);
+			break;
+		}
+			counter++;
+		} while (guestPick != lotteryNumber);
+		
+		if (guestPick == lotteryNumber)
+		{
+			System.out.println("Congratulations! You won!");
+			System.out.println("You may collect your gift card from the cashier!");
+		}
+		else
+			System.out.printf("%s%n%n", "Please come back  soon and try again!");
+
 		System.out.println("------------------------------------------");
 		System.out.println("*******       END OF PROGRAM       *******");
 		}
