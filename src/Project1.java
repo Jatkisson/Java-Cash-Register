@@ -6,24 +6,20 @@ public class Project1 {
 		Scanner input = new Scanner(System.in);
 		
 		double TAX = .07; 
-		int items;
-		int coupons;
+		int items, coupons;
 		int[] itemCount = new int[100];
 		int[] couponCount = new int[100];
 		double[] itemPrice = new double[100];
 		double[] couponAmount = new double[100];
+		double itemTotal = 0;
+		double couponTotal = 0;
+		double taxAmount = 0;
 		double subtotal = 0;
-		int counter = 0;
-		
-		/*
-		System.out.println("Please enter the number of items being purchased followed by the ");
-		System.out.println("price of the items being purchased with a space between the two.");
-		System.out.println("Quantity ---- Price");
-		items = input.nextInt();
-		itemCount[0] = items;
-		itemPrice[0] = input.nextDouble();
-		subtotal = itemCount[0] * itemPrice[0] + subtotal;
-		*/
+		double total = 0;
+		double paid;
+		int amountOfChange;
+		int counter = 0, count20 = 0, count10 = 0, count5 = 0, count1 = 0;
+		int countQuarter = 0, countDime = 0, countNickel = 0, countPenny = 0;
 		   
 		//Entering Items
 		do { 
@@ -48,7 +44,10 @@ public class Project1 {
 			System.out.printf("%s %.2f %n%n", "Current total is", subtotal);
 			
 			counter++;
-			} while (items != 0);
+			} while (items != 0); //End of item do while loop
+		
+		itemTotal = subtotal;
+		counter = 0;
 		
 		//Entering Coupons
 		do { 
@@ -57,6 +56,7 @@ public class Project1 {
 			System.out.println("Quantity ---- Price");
 			coupons = input.nextInt();
 			couponCount[counter] = coupons;
+			
 			if (coupons != 0)
 			{
 				couponAmount[counter] = input.nextDouble();
@@ -68,8 +68,8 @@ public class Project1 {
 						System.out.printf("%d%s %d  %.2f %n", i + 1, ".)", itemCount[i], itemPrice[i]);
 				}
 				
-				//Print the coupons being purchased
-				System.out.println("Your current coupons entered are:");
+			//Print the coupons being purchased
+			System.out.println("Your current coupons entered are:");
 				for (int i = 0; i < 100; i++)
 				{
 					if (couponCount[i] != 0)
@@ -77,21 +77,92 @@ public class Project1 {
 				}
 			}
 			subtotal = subtotal - (couponCount[counter] * couponAmount[counter]);
+			couponTotal += (couponCount[counter] * couponAmount[counter]);
 			
-			/*
-			System.out.println("Your current items entered are:");
-			for (int i = 0; i < 100; i++)
-			{
-				if (couponCount[i] != 0)
-					System.out.printf("%d  %.2f %n", couponCount[i], couponAmount[i]);
-			}
-			*/
-			
-			System.out.printf("%s %.2f %n%n", "Current total is", subtotal);
-			
+			if (coupons != 0)
+				System.out.printf("%s %.2f %n%n", "Current total is", subtotal);
+				
 			counter++;
-			} while (coupons != 0);
+			} while (coupons != 0); //End of coupon do while loop
 		
+		taxAmount = subtotal * TAX;
+		total = subtotal + taxAmount;
+		
+		System.out.println();
+		
+		System.out.printf("%s %.2f %n", "Current item total is", itemTotal);
+		System.out.printf("%s %.2f %n", "Current coupon total is", couponTotal);
 		System.out.printf("%s %.2f %n", "Current total is", subtotal);
+		System.out.printf("%s %.2f%s%n", "The tax rate is ", TAX * 100, "%");
+		System.out.printf("%s %.2f%n", "The tax amount is ", taxAmount);
+		System.out.printf("%s %.2f %n%n", "The total to be paid is", total);
+		
+		//Making purchase
+		 
+		System.out.println("Please enter the amount paid to satisfy this total");
+		paid = input.nextInt();
+		amountOfChange = (int) ((paid - total) * 100);
+		while (amountOfChange != 0)
+			{
+				if (amountOfChange >= 2000)
+				{	
+					count20++;
+					amountOfChange -= 2000;
+				}
+				else if (amountOfChange >= 1000)
+				{
+					count10++;
+					amountOfChange -= 1000;
+				}
+				else if (amountOfChange >= 500)
+				{
+					count5++;
+					amountOfChange -= 500;
+				}
+				else if (amountOfChange >= 100)
+				{
+					count1++;
+					amountOfChange -= 100;
+				}
+				else if (amountOfChange >= 25)
+				{
+					countQuarter++;
+					amountOfChange -= 25;
+				}
+				else if (amountOfChange >= 10)
+				{
+					countDime++;
+					amountOfChange -= 10;
+				}
+				else if (amountOfChange >= 5)
+				{
+					countNickel++;
+					amountOfChange -= 5;
+				}
+				else
+				{
+					countPenny++;
+					amountOfChange -= 1;
+				}
+			}
+		System.out.println("Change due is as follows: ");
+		if (count20 != 0)
+			System.out.printf("%s %d %n", "$20.00 - ", count20);
+		if (count10 != 0)
+			System.out.printf("%s %d %n", "$10.00 - ", count10);
+		if (count5 != 0)
+			System.out.printf("%s %d %n", " $5.00 - ", count5);
+		if (count1 != 0)
+			System.out.printf("%s %d %n", " $1.00 - ", count1);
+		if (countQuarter != 0)
+			System.out.printf("%s %d %n", " $0.25 - ", countQuarter);
+		if (countDime != 0)
+			System.out.printf("%s %d %n", " $0.10 - ", countDime);
+		if (countNickel != 0)
+			System.out.printf("%s %d %n", " $0.05 - ", countNickel);
+		if (countPenny != 0)
+			System.out.printf("%s %d %n%n", " $0.01 - ", countPenny);
+		System.out.println("------------------------------------------");
+		System.out.println("*******       END OF PROGRAM       *******");
+		}
 	}
-}
